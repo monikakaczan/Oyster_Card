@@ -41,5 +41,8 @@ describe Oystercard do
          it 'allows the customer to start the journey if minimal amount is £1' do
            expect { subject.touch_in }.to raise_error("Errrr, no money")
          end
+       end
+       describe '#touch_out' do
+         it{ is_expected.to respond_to(:touch_out)}
+       end
    end
-end

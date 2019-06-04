@@ -30,6 +30,8 @@ class Oystercard
       raise "Errrr, no money" if @balance < MIN_BALANCE
 
       @in_journey = true
-
     end
+
+    def touch_out
+    end 
 end
