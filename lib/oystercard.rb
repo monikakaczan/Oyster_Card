@@ -11,6 +11,7 @@ class Oystercard
       @balance = 0
       @in_journey = false
       @stations = []
+      @journey = @stations.to_h
     end
 
     def top_up(value)
