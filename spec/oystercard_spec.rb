@@ -60,14 +60,18 @@ describe Oystercard do
      end
        it 'charges the right fare' do
          station = Oystercard.new
+         station2 = Oystercard.new
          subject.top_up(5)
          subject.touch_in(station)
-       expect { subject.touch_out(station) }.to change{subject.balance}.by(-Oystercard::MIN_CHARGE)
+       expect { subject.touch_out(station2) }.to change{subject.balance}.by(-Oystercard::MIN_CHARGE)
      end
      it 'forgets the first staton' do
      station = Oystercard.new
-     subject.touch_out(station)
-     expect(subject.stations).to eq([])
+     station2 = Oystercard.new
+     subject.top_up(5)
+     subject.touch_in(station)
+     subject.touch_out(station2)
+     expect(subject.stations).to eq([station, station2])
    end
  end
 end

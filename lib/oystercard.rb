@@ -33,10 +33,10 @@ class Oystercard
 
     end
 
-    def touch_out(station)
+    def touch_out(station2)
       deduct(MIN_BALANCE)
       @in_journey = false
-      @stations = []
+      @stations << station2
     end
 
     private
