@@ -1,9 +1,11 @@
 require 'oystercard'
 
 describe Oystercard do
-  it 'has a balance of zero' do
+  it 'has a balance of zero'do
     # oystercard = Oystercard.new same as subject in line 6
     expect(subject.balance).to eq 0
+    expect(subject.stations).to eq([])
+
   end
 
   describe '#top_up' do
@@ -21,28 +23,51 @@ describe Oystercard do
       expect {subject.top_up 1}.to raise_error "Maximum balance is exceeded!"
     end
 
-    describe '#deduct' do
-      it{ is_expected.to respond_to(:deduct).with(1).argument}
-    end
+    #describe '#deduct' do
+    #  it{ is_expected.to respond_to(:deduct).with(1).argument}
+    #end
 
     ####
-   describe '#in_journey?'do
+   describe '#in_journey?' do
       it 'is initially not in journey' do
         expect(subject).not_to be_in_journey
       end
-    end
+
       describe "#touch_in" do
         it 'can check in' do
+          station = Oystercard.new
           subject.top_up(5)
-          expect(subject.touch_in).to be true
+          subject.touch_in(station)
+          expect(subject.in_journey).to be true
         end
+
+        it 'marks the first station' do
+        station = Oystercard.new
+        subject.top_up 5
+        subject.touch_in(station)
+        expect(subject.stations).to eq([station])
       end
+    end
        describe '#touch_in' do
-         it 'allows the customer to start the journey if minimal amount is £1' do
-           expect { subject.touch_in }.to raise_error("Errrr, no money")
+         it 'customers cant start their journey if their balance is less than 1£' do
+           station = Oystercard.new
+           expect { subject.touch_in(station) }.to raise_error("Errrr, no money")
          end
-       end
+
        describe '#touch_out' do
-         it{ is_expected.to respond_to(:touch_out)}
+         it{ is_expected.to respond_to(:touch_out).with(1).argument}
        end
+     end
+       it 'charges the right fare' do
+         station = Oystercard.new
+         subject.top_up(5)
+         subject.touch_in(station)
+       expect { subject.touch_out(station) }.to change{subject.balance}.by(-Oystercard::MIN_CHARGE)
+     end
+     it 'forgets the first staton' do
+     station = Oystercard.new
+     subject.touch_out(station)
+     expect(subject.stations).to eq([])
    end
+ end
+end
