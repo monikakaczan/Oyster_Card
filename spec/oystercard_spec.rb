@@ -73,5 +73,17 @@ describe Oystercard do
      subject.touch_out(station2)
      expect(subject.stations).to eq([station, station2])
    end
+   describe '#save_journeys' do
+     it 'saves the full journey' do
+       oystercard = Oystercard.new
+       station = Oystercard.new
+       station2 = Oystercard.new
+       subject.top_up 5
+       subject.touch_in(station)
+       subject.touch_out(station2)
+       subject.stations
+       expect(subject.save_journeys).to eq(:entry_station => station, :exit_station => station2)
+     end
+   end
  end
 end

@@ -1,6 +1,6 @@
 class Oystercard
 
-   attr_reader :balance, :stations, :in_journey
+   attr_reader :balance, :stations, :in_journey, :full_journey
 
   MAX_BALANCE = 90
   MIN_BALANCE = 1
@@ -11,7 +11,10 @@ class Oystercard
       @balance = 0
       @in_journey = false
       @stations = []
-      @journey
+
+      ##
+      @full_journey = {}
+      ##
     end
 
     def top_up(value)
@@ -40,6 +43,16 @@ class Oystercard
       @stations << station2
     end
 
+    ##
+    def save_journeys
+
+      @stations.insert(0, :entry_station)
+      @stations.insert(2, :exit_station)
+
+      @full_journey = Hash[*stations]
+
+    end
+    ##
     private
     def deduct(value)
       @balance -=value
