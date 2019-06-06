@@ -1,6 +1,10 @@
 require 'oystercard'
+require 'station'
 
 describe Oystercard do
+  let(:station) {double :station }
+  let(:station2) {double :station2}
+
   it 'has a balance of zero'do
     # oystercard = Oystercard.new same as subject in line 6
     expect(subject.balance).to eq 0
@@ -35,14 +39,12 @@ describe Oystercard do
 
       describe "#touch_in" do
         it 'can check in' do
-          station = Oystercard.new
           subject.top_up(5)
           subject.touch_in(station)
           expect(subject.in_journey).to be true
         end
 
         it 'marks the first station' do
-        station = Oystercard.new
         subject.top_up 5
         subject.touch_in(station)
         expect(subject.stations).to eq([station])
@@ -50,7 +52,6 @@ describe Oystercard do
     end
        describe '#touch_in' do
          it 'customers cant start their journey if their balance is less than 1£' do
-           station = Oystercard.new
            expect { subject.touch_in(station) }.to raise_error("Errrr, no money")
          end
 
@@ -59,15 +60,11 @@ describe Oystercard do
        end
      end
        it 'charges the right fare' do
-         station = Oystercard.new
-         station2 = Oystercard.new
          subject.top_up(5)
          subject.touch_in(station)
        expect { subject.touch_out(station2) }.to change{subject.balance}.by(-Oystercard::MIN_CHARGE)
      end
      it 'forgets the first staton' do
-     station = Oystercard.new
-     station2 = Oystercard.new
      subject.top_up(5)
      subject.touch_in(station)
      subject.touch_out(station2)
@@ -75,9 +72,6 @@ describe Oystercard do
    end
    describe '#save_journeys' do
      it 'saves the full journey' do
-       oystercard = Oystercard.new
-       station = Oystercard.new
-       station2 = Oystercard.new
        subject.top_up 5
        subject.touch_in(station)
        subject.touch_out(station2)
