@@ -9,6 +9,7 @@ Ruby 2.3.3
 ```
 
 # User stories covered
+```
 In order to use public transport
 As a customer
 I want money on my card
@@ -44,3 +45,4 @@ I need to know where I've travelled from
 In order to know where I have been
 As a customer
 I want to see to all my previous trips
+```
